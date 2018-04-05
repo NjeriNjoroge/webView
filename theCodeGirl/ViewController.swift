@@ -7,28 +7,53 @@
 //
 
 import UIKit
-import SafariServices
+import WebKit
 
 
-class ViewController: UIViewController, SFSafariViewControllerDelegate {
+class ViewController: UIViewController, WKNavigationDelegate {
+    
+    var webView: WKWebView!
+    var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    }
-
-    @IBAction func openMySite(_ sender: AnyObject) {
-
+        webView = WKWebView()
+        webView.navigationDelegate = self
+        view = webView
+        
+        activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        
         let url = URL(string: "https://thecodegal.wordpress.com")!
-        let controller = SFSafariViewController(url: url)
-        self.present(controller, animated: true, completion: nil)
-        controller.delegate = self
-
+        webView.load(URLRequest(url: url))
+        webView.allowsBackForwardNavigationGestures = true
     }
     
-    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        controller.dismiss(animated: true, completion: nil)
+    func showActivityIndicator(show: Bool) {
+        if show {
+            activityIndicator.startAnimating()
+        } else {
+            activityIndicator.stopAnimating()
+        }
     }
+    
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        showActivityIndicator(show: true)
+        print("start to load")
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        showActivityIndicator(show: false)
+        print("finish load")
+    }
+
 
 }
 
