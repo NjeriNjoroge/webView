@@ -7,29 +7,29 @@
 //
 
 import UIKit
-import WebKit
+import SafariServices
 
-class ViewController: UIViewController, WKNavigationDelegate {
- 
-  var webView: WKWebView!
-    
-    override func loadView() {
-        webView = WKWebView()
-        webView.navigationDelegate = self
-        view = webView
-    }
-    
+
+class ViewController: UIViewController, SFSafariViewControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let url = URL(string: "https://thecodegal.wordpress.com")!
-        webView.load(URLRequest(url: url))
-        webView.allowsBackForwardNavigationGestures = true
     }
-            
-        
 
+    @IBAction func openMySite(_ sender: AnyObject) {
+
+        let url = URL(string: "https://thecodegal.wordpress.com")!
+        let controller = SFSafariViewController(url: url)
+        self.present(controller, animated: true, completion: nil)
+        controller.delegate = self
+
+    }
+    
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
 
 }
+
 
