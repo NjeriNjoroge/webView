@@ -11,7 +11,7 @@ import WebKit
 
 
 class ViewController: UIViewController, WKNavigationDelegate {
-
+   
     var webView: WKWebView!
     
     override func loadView() {
@@ -23,15 +23,13 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let url = URL(string: "https://thecodegal.wordpress.com")!
-        webView.load(URLRequest(url: url))
+
+        let myURL = URL(string: "https://thecodegal.wordpress.com")!
+        webView.load(URLRequest(url: myURL) )
         webView.allowsBackForwardNavigationGestures = true
     }
+
     
-
-
-
 }
 
 
